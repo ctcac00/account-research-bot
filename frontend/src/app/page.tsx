@@ -2,7 +2,7 @@ import Button from '@/components/AskButton';
 import NavBar from '@/components/NavBar';
 import Query from '@/components/Query';
 import Response from '@/components/Response';
-import SelectAccount from '@/components/SelectAccount';
+import SideBar from '@/components/SideBar';
 import WarningBanner from '@/components/WarningBanner';
 
 export default function Home() {
@@ -15,7 +15,7 @@ export default function Home() {
         </div>
         <div className='flex mx-auto p-3'>
           <div className='mr-10'>
-            <SelectAccount />
+            <SideBar />
           </div>
           <div className='flex-grow max-w-screen-lg'>
             <div>

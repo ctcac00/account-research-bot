@@ -8,7 +8,7 @@ const Response = () => {
     <div>
       <TextArea
         readOnly
-        value='This is a placeholder'
+        value=''
         label='Response'
         description='See your answer below'
       />

@@ -7,7 +7,7 @@ const LeafyGreenProviderWrapper = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  return <LeafyGreenProvider darkMode={true}>{children}</LeafyGreenProvider>;
+  return <LeafyGreenProvider darkMode={false}>{children}</LeafyGreenProvider>;
 };
 
 export default LeafyGreenProviderWrapper;

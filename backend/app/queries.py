@@ -20,10 +20,6 @@ def get_accounts():
 
   # Query distinct accounts
   distinct_accounts = collection.distinct("account")
-
-  # Close the MongoDB connection
-  client.close()
-
   return distinct_accounts
 
 # Get distinct files for an account from MongoDB
@@ -32,10 +28,6 @@ def get_files(account):
 
   # Query distinct files for an account
   distinct_files = collection.distinct("source", {"account": account})
-
-  # Close the MongoDB connection
-  client.close()
-
   return distinct_files
 
 if __name__ == "__main__":

@@ -29,7 +29,7 @@ async def load_pdf_api(url: str, account: str = "default"):
 async def upload_pdf_api(file: UploadFile, account: str = "default"):
     content = await file.read()
     bytes_stream = BytesIO(content)
-    load_pdf_file(bytes_stream, account)
+    load_pdf_file(bytes_stream, file.filename, account)
     return {"message": "PDF uploaded"}
 
 @app.get("/accounts")

@@ -19,19 +19,10 @@ def green(text: str) -> str:
     """Return the given text in green."""
     return "\x1b[32;40m" + text + "\x1b[0m"
 
-def orange(text: str) -> str:
-    """Return the given text in orange."""
-    return "\x1b[31;40m" + text + "\x1b[0m"
-
-def load_pdf(url, account):
-    # Load docs
-    print(f'{green("INFO:")} Loading PDF from:', url)
-    loader = PyPDFLoader(url)
-    data = loader.load()
-
+def process_pdf(data, account, filename):
     # Split docs
     print(f'{green("INFO:")} Splitting documents...')
-    parent_docs, child_docs = parent_child_splitter(data, account)
+    parent_docs, child_docs = parent_child_splitter(data, account, filename)
 
     print(f'{green("INFO:")} Inserting documents into MongoDB Atlas Vector Search...')
     # Insert the documents in MongoDB Atlas Vector Search
@@ -43,7 +34,15 @@ def load_pdf(url, account):
     )
     print(f'{green("INFO:")} Done!')
 
-def load_pdf_file(content, account):
+def load_pdf(url, account):
+    # Load docs
+    print(f'{green("INFO:")} Loading PDF from:', url)
+    loader = PyPDFLoader(url)
+    data = loader.load()
+
+    process_pdf(data, account)
+
+def load_pdf_file(content, filename, account):
     # Load docs
     print(f'{green("INFO:")} Loading PDF from file...')
 
@@ -53,25 +52,10 @@ def load_pdf_file(content, account):
     for page in reader.pages:
         data.append(Document(page_content=page.extract_text(), metadata={'page':i}))
         i += 1
+    process_pdf(data, account, filename)
 
-    #loader = PyPDFLoader(content)
-    #data = loader.load()
 
-    # Split docs
-    print(f'{green("INFO:")} Splitting documents...')
-    parent_docs, child_docs = parent_child_splitter(data, account)
-
-    print(f'{green("INFO:")} Inserting documents into MongoDB Atlas Vector Search...')
-    # Insert the documents in MongoDB Atlas Vector Search
-    _ = MongoDBAtlasVectorSearch.from_documents(
-        documents=parent_docs + child_docs,
-        embedding=OpenAIEmbeddings(disallowed_special=()),
-        collection=MONGODB_COLLECTION,
-        index_name=ATLAS_VECTOR_SEARCH_INDEX_NAME,
-    )
-    print(f'{green("INFO:")} Done!')
-
-def parent_child_splitter(data, account, id_key=PARENT_DOC_ID_KEY):
+def parent_child_splitter(data, account, filename, id_key=PARENT_DOC_ID_KEY):
     parent_splitter = RecursiveCharacterTextSplitter(chunk_size=2000)
     # This text splitter is used to create the child documents
     # It should create documents smaller than the parent
@@ -90,6 +74,8 @@ def parent_child_splitter(data, account, id_key=PARENT_DOC_ID_KEY):
         doc.metadata[id_key] = _id
         doc.metadata["doc_level"] = "parent"
         doc.metadata["account"] = account
+        if filename:
+            doc.metadata["source"] = filename
     return documents, docs
 
 

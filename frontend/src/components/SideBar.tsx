@@ -1,20 +1,40 @@
+'use client';
+
 import React from 'react';
-import SearchAccount from './SearchAccount';
+
 import LoadPDF from './LoadPDF';
-import CreateAccount from './CreateAccount';
+import FileList from './FileList';
+import PickAccounts from './PickAccounts';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Modal from '@leafygreen-ui/modal';
+import Button from '@leafygreen-ui/button';
+
+const queryClient = new QueryClient();
 
 const SideBar = () => {
+  const [account, setAccount] = React.useState('');
+  const [open, setOpen] = React.useState(false);
+
+  console.log(account);
+
   return (
     <div>
-      <div>
-        <SearchAccount />
-      </div>
-      <div className='mt-8'>
-        <CreateAccount />
-      </div>
-      <div className='mt-8'>
-        <LoadPDF />
-      </div>
+      <QueryClientProvider client={queryClient}>
+        <div>
+          <PickAccounts account={account} setAccount={setAccount} />
+        </div>
+        <div className='mt-8'>
+          <FileList account={account} />
+        </div>
+        <div className='mt-8'>
+          <Button onClick={() => setOpen(true)}>Add new PDF</Button>
+        </div>
+        <div>
+          <Modal open={open} setOpen={setOpen}>
+            <LoadPDF account={account} />
+          </Modal>
+        </div>
+      </QueryClientProvider>
     </div>
   );
 };

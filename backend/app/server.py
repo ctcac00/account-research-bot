@@ -1,4 +1,5 @@
 from io import BytesIO
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, UploadFile
 from fastapi.responses import RedirectResponse
 from langserve import add_routes
@@ -10,6 +11,20 @@ from dotenv import load_dotenv
 load_dotenv()  # take environment variables from .env.
 
 app = FastAPI()
+
+origins = [
+    "http://localhost",
+    "http://localhost:8080",
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 async def redirect_root_to_docs():

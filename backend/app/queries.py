@@ -28,6 +28,10 @@ def get_files(account):
 
   # Query distinct files for an account
   distinct_files = collection.distinct("source", {"account": account})
+
+  # extract filenames from URL like https://www.example.com/file.pdf
+  distinct_files = [file.split("/")[-1] for file in distinct_files]  
+
   return distinct_files
 
 if __name__ == "__main__":

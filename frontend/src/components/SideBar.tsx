@@ -31,7 +31,7 @@ const SideBar = () => {
         </div>
         <div>
           <Modal open={open} setOpen={setOpen}>
-            <LoadPDF account={account} />
+            <LoadPDF account={account} setOpen={setOpen} />
           </Modal>
         </div>
       </QueryClientProvider>

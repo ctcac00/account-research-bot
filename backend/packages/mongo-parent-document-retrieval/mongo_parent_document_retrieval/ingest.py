@@ -40,7 +40,7 @@ def load_pdf(url, account):
     loader = PyPDFLoader(url)
     data = loader.load()
 
-    process_pdf(data, account)
+    process_pdf(data, account, None)
 
 def load_pdf_file(content, filename, account):
     # Load docs

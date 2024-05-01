@@ -8,17 +8,16 @@ import Label from './Label';
 const FileList = ({ account }: { account: string }) => {
   const queryClient = useQueryClient();
   const { isPending, error, data, isFetching } = useQuery({
-    queryKey: ['files'],
+    queryKey: ['files', account],
     queryFn: () =>
       axios
         .get(`http://127.0.0.1:8000/files?account=${account}`)
         .then((res) => res.data),
+    enabled: !!account,
   });
 
   if (isPending) return 'Loading...';
   if (error) return 'An error has occurred: ' + error.message;
-
-  console.log(data);
 
   return (
     <div>

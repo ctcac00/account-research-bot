@@ -30,9 +30,6 @@ const LoadPDF = ({
 
   const uploadPDF = useMutation({
     mutationFn: (data) => {
-      console.log('loading', data.pdf);
-      console.log('accountName', data.accountToUse);
-
       const formData = new FormData();
       formData.append('file', data.pdf);
 
@@ -45,9 +42,6 @@ const LoadPDF = ({
 
   const loadPDF = useMutation({
     mutationFn: (data) => {
-      console.log('loading', data.pdfUrl);
-      console.log('accountName', data.accountToUse);
-
       return axios.get(
         `http://localhost:8000/load-pdf?account=${data.accountToUse}&url=${data.pdfUrl}`
       );
@@ -57,14 +51,10 @@ const LoadPDF = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log('submitting', pdf, pdfUrl);
-
     let accountToUse = account;
     if (newAccount) {
       accountToUse = newAccount;
     }
-
-    console.log('accountToUse', accountToUse);
 
     if (pdfUrl) {
       loadPDF.mutate({ accountToUse, pdfUrl });

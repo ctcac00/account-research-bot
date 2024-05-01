@@ -16,18 +16,14 @@ const queryClient = new QueryClient();
 const Chat = () => {
   const [query, setQuery] = React.useState('');
   const [response, setResponse] = React.useState('');
-
-  console.log(query);
+  const [enabled, setEnabled] = React.useState(false);
 
   const askBot = useMutation(
     {
       mutationFn: (query) => {
-        console.log('query', query);
-
         return axios.get(`http://localhost:8000/ask-bot?query=${query}`);
       },
       onSuccess: (data) => {
-        console.log('success', data);
         setResponse(data.data.result);
       },
     },
@@ -36,10 +32,9 @@ const Chat = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    console.log('submitting');
-
     askBot.mutate(query);
+    setResponse('Fetching response...');
+    setEnabled(false);
   };
 
   return (
@@ -47,13 +42,17 @@ const Chat = () => {
       <div>
         <TextArea
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            setEnabled(true);
+          }}
           label='Query'
           description='Ask your question here'
         />
       </div>
       <div className='mt-2'>
         <Button
+          disabled={!enabled}
           onClick={handleSubmit}
           variant='primary'
           rightGlyph={<Icon glyph='QuestionMarkWithCircle' />}

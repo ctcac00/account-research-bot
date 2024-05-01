@@ -3,7 +3,7 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import axios from 'axios';
 import { Combobox, ComboboxOption } from '@leafygreen-ui/combobox';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 const PickAccounts = ({
   account,
@@ -12,11 +12,8 @@ const PickAccounts = ({
   account: string;
   setAccount: Dispatch<SetStateAction<string>>;
 }) => {
-  const queryClient = useQueryClient();
   const handleChange = (value: string | null) => {
     setAccount(value as string);
-
-    queryClient.invalidateQueries({ queryKey: ['files'] });
   };
 
   const { isPending, error, data, isFetching } = useQuery({
@@ -27,8 +24,6 @@ const PickAccounts = ({
 
   if (isPending) return 'Loading...';
   if (error) return 'An error has occurred: ' + error.message;
-
-  console.log(data);
 
   return (
     <div>

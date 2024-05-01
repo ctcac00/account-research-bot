@@ -15,8 +15,6 @@ const SideBar = () => {
   const [account, setAccount] = React.useState('');
   const [open, setOpen] = React.useState(false);
 
-  console.log(account);
-
   return (
     <div>
       <QueryClientProvider client={queryClient}>

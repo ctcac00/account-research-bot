@@ -1,14 +1,16 @@
 'use client';
 
 import React from 'react';
-import Banner from '@leafygreen-ui/banner';
+import dynamic from 'next/dynamic';
+
+const NoSSR = dynamic(() => import('@leafygreen-ui/banner'), { ssr: false });
 
 const WarningBanner = () => {
   return (
     <div>
-      <Banner variant='warning'>
+      <NoSSR variant='warning'>
         Only use <b>PUBLIC</b> data on this application.
-      </Banner>
+      </NoSSR>
     </div>
   );
 };

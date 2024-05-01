@@ -6,8 +6,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import Label from './Label';
 
 const FileList = ({ account }: { account: string }) => {
-  const queryClient = useQueryClient();
-  const { isPending, error, data, isFetching } = useQuery({
+  const { error, data, isFetching } = useQuery({
     queryKey: ['files', account],
     queryFn: () =>
       axios
@@ -16,7 +15,7 @@ const FileList = ({ account }: { account: string }) => {
     enabled: !!account,
   });
 
-  if (isPending) return 'Loading...';
+  if (isFetching) return 'Loading...';
   if (error) return 'An error has occurred: ' + error.message;
 
   return (

@@ -1,9 +1,10 @@
-from fastapi import FastAPI
+from io import BytesIO
+from fastapi import FastAPI, UploadFile
 from fastapi.responses import RedirectResponse
 from langserve import add_routes
 from mongo_parent_document_retrieval import chain as mongo_parent_document_retrieval_chain
-from mongo_parent_document_retrieval import load_pdf, ask_bot
-from app import get_accounts
+from mongo_parent_document_retrieval import load_pdf, load_pdf_file, ask_bot
+from app import get_accounts, get_files
 from dotenv import load_dotenv
 
 load_dotenv()  # take environment variables from .env.
@@ -24,10 +25,22 @@ async def load_pdf_api(url: str, account: str = "default"):
     load_pdf(url, account)
     return {"message": "PDF loaded"}
 
+@app.post("/upload-pdf")
+async def upload_pdf_api(file: UploadFile, account: str = "default"):
+    content = await file.read()
+    bytes_stream = BytesIO(content)
+    load_pdf_file(bytes_stream, account)
+    return {"message": "PDF uploaded"}
+
 @app.get("/accounts")
 async def get_accounts_api():
     accounts = get_accounts()
     return accounts
+
+@app.get("/files")
+async def get_files_api(account: str = "default"):
+    files = get_files(account)
+    return files
 
 add_routes(app, mongo_parent_document_retrieval_chain, path="/mongo-parent-document-retrieval")
 

@@ -1,11 +1,14 @@
 import os
 import uuid
+from io import BytesIO
 
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_community.embeddings import OpenAIEmbeddings
 from langchain_community.vectorstores import MongoDBAtlasVectorSearch
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain.docstore.document import Document
 from pymongo import MongoClient
+from PyPDF2 import PdfReader
 from dotenv import load_dotenv
 
 load_dotenv()  # take environment variables from .env.
@@ -40,6 +43,33 @@ def load_pdf(url, account):
     )
     print(f'{green("INFO:")} Done!')
 
+def load_pdf_file(content, account):
+    # Load docs
+    print(f'{green("INFO:")} Loading PDF from file...')
+
+    data = []
+    reader = PdfReader(content)
+    i = 1
+    for page in reader.pages:
+        data.append(Document(page_content=page.extract_text(), metadata={'page':i}))
+        i += 1
+
+    #loader = PyPDFLoader(content)
+    #data = loader.load()
+
+    # Split docs
+    print(f'{green("INFO:")} Splitting documents...')
+    parent_docs, child_docs = parent_child_splitter(data, account)
+
+    print(f'{green("INFO:")} Inserting documents into MongoDB Atlas Vector Search...')
+    # Insert the documents in MongoDB Atlas Vector Search
+    _ = MongoDBAtlasVectorSearch.from_documents(
+        documents=parent_docs + child_docs,
+        embedding=OpenAIEmbeddings(disallowed_special=()),
+        collection=MONGODB_COLLECTION,
+        index_name=ATLAS_VECTOR_SEARCH_INDEX_NAME,
+    )
+    print(f'{green("INFO:")} Done!')
 
 def parent_child_splitter(data, account, id_key=PARENT_DOC_ID_KEY):
     parent_splitter = RecursiveCharacterTextSplitter(chunk_size=2000)
@@ -76,4 +106,8 @@ MONGODB_COLLECTION = db[COLLECTION_NAME]
 
 if __name__ == "__main__":
     # Load docs
-    load_pdf("https://icseindia.org/document/sample.pdf")
+    load_pdf("https://icseindia.org/document/sample.pdf", "india")
+    # Load docs from file
+    with open("/Users/carloscastro/Downloads/sample.pdf", "rb") as fh:
+        bytes_stream = BytesIO(fh.read())
+        load_pdf_file(bytes_stream, "icse")

@@ -14,6 +14,7 @@ EMBEDDING_FIELD_NAME = "embedding"
 client = MongoClient(MONGO_URI)
 db = client[DB_NAME]
 
+# Get disctinct accounts from MongoDB
 def get_accounts():
   collection = db[COLLECTION_NAME]
 
@@ -25,6 +26,17 @@ def get_accounts():
 
   return distinct_accounts
 
+# Get distinct files for an account from MongoDB
+def get_files(account):
+  collection = db[COLLECTION_NAME]
+
+  # Query distinct files for an account
+  distinct_files = collection.distinct("source", {"account": account})
+
+  # Close the MongoDB connection
+  client.close()
+
+  return distinct_files
 
 if __name__ == "__main__":
     # Load docs

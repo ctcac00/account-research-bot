@@ -21,7 +21,9 @@ const Chat = () => {
   const askBot = useMutation(
     {
       mutationFn: (query) => {
-        return axios.get(`http://localhost:8000/ask-bot?query=${query}`);
+        return axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/ask-bot?query=${query}`
+        );
       },
       onSuccess: (data) => {
         setResponse(data.data.result);

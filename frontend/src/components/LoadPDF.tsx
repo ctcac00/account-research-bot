@@ -34,7 +34,7 @@ const LoadPDF = ({
       formData.append('file', data.pdf);
 
       return axios.post(
-        `http://localhost:8000/upload-pdf?account=${data.accountToUse}`,
+        `${process.env.NEXT_PUBLIC_API_URL}upload-pdf?account=${data.accountToUse}`,
         formData
       );
     },
@@ -43,7 +43,7 @@ const LoadPDF = ({
   const loadPDF = useMutation({
     mutationFn: (data) => {
       return axios.get(
-        `http://localhost:8000/load-pdf?account=${data.accountToUse}&url=${data.pdfUrl}`
+        `${process.env.NEXT_PUBLIC_API_URL}/load-pdf?account=${data.accountToUse}&url=${data.pdfUrl}`
       );
     },
   });
@@ -70,13 +70,16 @@ const LoadPDF = ({
       <form>
         <div className='my-2'>
           {account && (
-            <div>
-              <Subtitle>Add a new PDF on the {account} account</Subtitle>
-            </div>
+            <>
+              <div>
+                <Subtitle>Add a new PDF on the {account} account</Subtitle>
+              </div>
+
+              <div className='my-2'>
+                <Body>Or add it to a a new account</Body>
+              </div>
+            </>
           )}
-          <div className='my-2'>
-            <Body>Or add it to a a new account</Body>
-          </div>
 
           <TextInput
             label='Account'

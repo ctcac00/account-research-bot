@@ -1,7 +1,7 @@
 import os
 
-from langchain_community.chat_models import ChatOpenAI
-from langchain_community.embeddings import OpenAIEmbeddings
+from langchain_community.chat_models import AzureChatOpenAI
+from langchain_community.embeddings import AzureOpenAIEmbeddings
 from langchain_community.vectorstores import MongoDBAtlasVectorSearch
 from langchain_core.documents import Document
 from langchain_core.output_parsers import StrOutputParser
@@ -24,14 +24,15 @@ client = MongoClient(MONGO_URI)
 db = client[DB_NAME]
 MONGODB_COLLECTION = db[COLLECTION_NAME]
 
-
 vector_search = MongoDBAtlasVectorSearch.from_connection_string(
     MONGO_URI,
     DB_NAME + "." + COLLECTION_NAME,
-    OpenAIEmbeddings(disallowed_special=()),
+    AzureOpenAIEmbeddings(
+        azure_deployment=os.environ["AZURE_OPENAI_DEPLOYMENT"],
+        openai_api_version="2023-05-15",
+        ),
     index_name=ATLAS_VECTOR_SEARCH_INDEX_NAME,
 )
-
 
 def retrieve(query: str):
     results = vector_search.similarity_search(
@@ -77,7 +78,10 @@ Question: {question}
 prompt = ChatPromptTemplate.from_template(template)
 
 # RAG
-model = ChatOpenAI()
+model = AzureChatOpenAI(
+    openai_api_version=os.environ["AZURE_OPENAI_API_VERSION"],
+    azure_deployment=os.environ["AZURE_OPENAI_CHAT_DEPLOYMENT_NAME"],
+)
 chain = (
     RunnableParallel({"context": retrieve, "question": RunnablePassthrough()})
     | prompt

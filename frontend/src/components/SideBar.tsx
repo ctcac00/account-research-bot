@@ -1,15 +1,19 @@
 import React from 'react';
 import SearchAccount from './SearchAccount';
 import LoadPDF from './LoadPDF';
+import CreateAccount from './CreateAccount';
 
 const SideBar = () => {
   return (
     <div>
       <div>
-        <LoadPDF />
-      </div>
-      <div className='mt-2'>
         <SearchAccount />
+      </div>
+      <div className='mt-8'>
+        <CreateAccount />
+      </div>
+      <div className='mt-8'>
+        <LoadPDF />
       </div>
     </div>
   );

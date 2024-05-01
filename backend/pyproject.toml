@@ -15,8 +15,9 @@ langserve = {extras = ["server"], version = ">=0.0.30"}
 pydantic = "<2"
 python-dotenv = "^1.0.1"
 mongo-parent-document-retrieval = [
+    {path = "packages\\mongo-parent-document-retrieval", develop = true, platform = 'win32'},
     {path = "packages/mongo-parent-document-retrieval", develop = true, platform = 'linux'},
-    {path = "packages\\mongo-parent-document-retrieval", develop = true, platform = 'win32'}
+    {path = "packages/mongo-parent-document-retrieval", develop = true, platform = 'darwin' }
 ]
 
 [tool.poetry.group.dev.dependencies]

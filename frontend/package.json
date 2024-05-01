@@ -18,6 +18,7 @@
     "@leafygreen-ui/search-input": "^3.0.1",
     "@leafygreen-ui/select": "^12.0.0",
     "@leafygreen-ui/text-area": "^9.0.0",
+    "@leafygreen-ui/text-input": "^13.0.2",
     "@leafygreen-ui/typography": "^18.2.3",
     "next": "^14.2.3",
     "react": "^18",

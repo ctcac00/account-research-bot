@@ -11,11 +11,25 @@ This is a simple RAG application that allows users to upload PUBLIC pdf files ab
 
 ## Installation
 
-Instructions on how to install and set up your project.
+### Install Backend
+
+To install the backend run the following commands in the [backend](backend) directory
+
+```bash
+pip install poetry==1.6.1
+poetry install --no-interaction --no-ansi
+poetry shell
+```
 
 ## Usage
 
-Instructions on how to use your project and any relevant examples.
+### Run Backend
+
+To start the backend run the following commands in the [backend](backend) directory
+
+```bash
+langchain serve
+```
 
 ## Contributing
 

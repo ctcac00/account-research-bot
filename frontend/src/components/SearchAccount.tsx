@@ -6,22 +6,12 @@ import {
   SearchResult,
   SearchResultGroup,
 } from '@leafygreen-ui/search-input';
-import { Label } from '@leafygreen-ui/typography';
+import Label from './Label';
 
 const SearchAccount = () => {
   return (
     <div>
-      <Label htmlFor='search'>Account</Label>
-      <p
-        style={{
-          fontFamily:
-            "'Euclid Circular A', 'Helvetica Neue', Helvetica, Arial, sans-serif",
-          color: '#5C6C75',
-          fontSize: '13px',
-        }}
-      >
-        Search for an account
-      </p>
+      <Label label={'Account'} description={'Search for an account'} />
       <SearchInput id='search' aria-label='Search account'>
         <SearchResult
           onClick={() => {

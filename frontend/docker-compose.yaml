@@ -1,6 +1,6 @@
 version: '3'
 services:
-  account-research-bot-backend:
+  account-research-bot-frontend:
     build:
       context: .
       dockerfile: Dockerfile

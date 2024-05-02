@@ -3,7 +3,7 @@ import uuid
 from io import BytesIO
 
 from langchain_community.document_loaders import PyPDFLoader
-from langchain_community.embeddings import OpenAIEmbeddings
+from langchain_community.embeddings import AzureOpenAIEmbeddings
 from langchain_community.vectorstores import MongoDBAtlasVectorSearch
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain.docstore.document import Document
@@ -28,7 +28,10 @@ def process_pdf(data, account, filename):
     # Insert the documents in MongoDB Atlas Vector Search
     _ = MongoDBAtlasVectorSearch.from_documents(
         documents=parent_docs + child_docs,
-        embedding=OpenAIEmbeddings(disallowed_special=()),
+        embedding=AzureOpenAIEmbeddings(
+            azure_deployment=os.environ["AZURE_OPENAI_DEPLOYMENT"],
+            openai_api_version="2023-05-15",
+        ),
         collection=MONGODB_COLLECTION,
         index_name=ATLAS_VECTOR_SEARCH_INDEX_NAME,
     )

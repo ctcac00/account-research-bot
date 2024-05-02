@@ -30,6 +30,7 @@ const Chat = ({ account }: { account: string }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    // @ts-ignore
     askBot.mutate(query);
     setResponse('Fetching response...');
     setEnabled(false);

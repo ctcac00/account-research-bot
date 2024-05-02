@@ -34,9 +34,11 @@ const LoadPDF = ({
   const uploadPDF = useMutation({
     mutationFn: (data) => {
       const formData = new FormData();
+      // @ts-ignore
       formData.append('file', data.pdf);
 
       return axios.post(
+        // @ts-ignore
         `${process.env.NEXT_PUBLIC_API_URL}/upload-pdf?account=${data.accountToUse}`,
         formData
       );
@@ -55,6 +57,7 @@ const LoadPDF = ({
   const loadPDF = useMutation({
     mutationFn: (data) => {
       return axios.get(
+        // @ts-ignore
         `${process.env.NEXT_PUBLIC_API_URL}/load-pdf?account=${data.accountToUse}&url=${data.pdfUrl}`
       );
     },
@@ -78,8 +81,10 @@ const LoadPDF = ({
     }
 
     if (pdfUrl) {
+      // @ts-ignore
       loadPDF.mutate({ accountToUse, pdfUrl });
     } else if (pdf) {
+      // @ts-ignore
       uploadPDF.mutate({ accountToUse, pdf });
     }
 

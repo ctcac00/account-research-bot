@@ -31,8 +31,8 @@ async def redirect_root_to_docs():
     return RedirectResponse("/docs")
 
 @app.get("/ask-bot")
-async def ask_bot_api(query: str):
-    result = ask_bot(query)
+async def ask_bot_api(query: str, account: str = "default"):
+    result = ask_bot(query, account)
     return {"result": result}
 
 @app.get("/load-pdf")

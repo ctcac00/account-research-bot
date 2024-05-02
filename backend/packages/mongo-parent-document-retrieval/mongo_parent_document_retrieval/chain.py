@@ -16,13 +16,15 @@ load_dotenv()  # take environment variables from .env.
 MONGO_URI = os.environ["MONGO_URI"]
 PARENT_DOC_ID_KEY = "parent_doc_id"
 # Note that if you change this, you also need to change it in `rag_mongo/chain.py`
-DB_NAME = "langchain-test-2"
-COLLECTION_NAME = "test"
+DB_NAME = "account_research_bot"
+COLLECTION_NAME = "data"
 ATLAS_VECTOR_SEARCH_INDEX_NAME = "vector_index"
 EMBEDDING_FIELD_NAME = "embedding"
 client = MongoClient(MONGO_URI)
 db = client[DB_NAME]
 MONGODB_COLLECTION = db[COLLECTION_NAME]
+
+accountFilter = "default"
 
 vector_search = MongoDBAtlasVectorSearch.from_connection_string(
     MONGO_URI,
@@ -35,10 +37,28 @@ vector_search = MongoDBAtlasVectorSearch.from_connection_string(
 )
 
 def retrieve(query: str):
+    print(f'{green("INFO:")} Account is {accountFilter} ')
+
+    if (accountFilter != "default"):
+        filter ={
+            "$and": [
+                {
+                    "doc_level": "child"
+                },
+                {
+                     "account": accountFilter
+                }
+            ]
+        }
+    else:
+        filter = {"doc_level": "child"}
+
+    print(f'{green("INFO:")} Filter: {filter}')
+
     results = vector_search.similarity_search(
         query,
         k=4,
-        pre_filter={"doc_level": {"$eq": "child"}},
+        pre_filter=filter,
         post_filter_pipeline=[
             {"$project": {"embedding": 0}},
             {
@@ -105,8 +125,12 @@ def orange(text: str) -> str:
     """Return the given text in orange."""
     return "\x1b[31;40m" + text + "\x1b[0m"
 
-def ask_bot(question: str):
-    print(f'{green("INFO:")} Asking bot:', question)
+def ask_bot(question: str, account: str = "default"):
+    print(f'{green("INFO:")} Asking bot: {question} on account {account}')
+    if (account != ""):
+        global accountFilter
+        accountFilter = account
+        
     response = chain.invoke(question)
     print(f'{green("INFO:")} Response:', response)
     return response

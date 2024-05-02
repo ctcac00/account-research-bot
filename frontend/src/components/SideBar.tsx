@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 
 import LoadPDF from './LoadPDF';
 import FileList from './FileList';
@@ -11,8 +11,13 @@ import Button from '@leafygreen-ui/button';
 
 const queryClient = new QueryClient();
 
-const SideBar = () => {
-  const [account, setAccount] = React.useState('');
+const SideBar = ({
+  account,
+  setAccount,
+}: {
+  account: string;
+  setAccount: Dispatch<SetStateAction<string>>;
+}) => {
   const [open, setOpen] = React.useState(false);
 
   return (

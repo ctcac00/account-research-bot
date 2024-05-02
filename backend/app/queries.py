@@ -7,9 +7,9 @@ load_dotenv()  # take environment variables from .env.
 MONGO_URI = os.environ["MONGO_URI"]
 
 # Note that if you change this, you also need to change it in `rag_mongo/chain.py`
-DB_NAME = "langchain-test-2"
-COLLECTION_NAME = "test"
-ATLAS_VECTOR_SEARCH_INDEX_NAME = "default"
+DB_NAME = "account_research_bot"
+COLLECTION_NAME = "data"
+ATLAS_VECTOR_SEARCH_INDEX_NAME = "vector_index"
 EMBEDDING_FIELD_NAME = "embedding"
 client = MongoClient(MONGO_URI)
 db = client[DB_NAME]

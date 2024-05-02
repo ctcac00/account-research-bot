@@ -9,6 +9,10 @@
     {
       "type": "filter",
       "path": "doc_level"
+    },
+    {
+      "type": "filter",
+      "path": "account"
     }
   ]
 }

@@ -4,16 +4,12 @@ import React from 'react';
 import TextArea from '@leafygreen-ui/text-area';
 import Button from '@leafygreen-ui/button';
 import Icon from '@leafygreen-ui/icon';
-import {
-  useMutation,
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query';
+import { useMutation, QueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 
 const queryClient = new QueryClient();
 
-const Chat = () => {
+const Chat = ({ account }: { account: string }) => {
   const [query, setQuery] = React.useState('');
   const [response, setResponse] = React.useState('');
   const [enabled, setEnabled] = React.useState(false);
@@ -22,7 +18,7 @@ const Chat = () => {
     {
       mutationFn: (query) => {
         return axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/ask-bot?query=${query}`
+          `${process.env.NEXT_PUBLIC_API_URL}/ask-bot?query=${query}&account=${account}`
         );
       },
       onSuccess: (data) => {

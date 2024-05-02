@@ -19,7 +19,9 @@ const PickAccounts = ({
   const { isPending, error, data, isFetching } = useQuery({
     queryKey: ['accounts'],
     queryFn: () =>
-      axios.get(`http://127.0.0.1:8000/accounts`).then((res) => res.data),
+      axios
+        .get(`${process.env.NEXT_PUBLIC_API_URL}/accounts`)
+        .then((res) => res.data),
   });
 
   if (isPending) return 'Loading...';

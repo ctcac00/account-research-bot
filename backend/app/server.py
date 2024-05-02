@@ -62,4 +62,4 @@ add_routes(app, mongo_parent_document_retrieval_chain, path="/mongo-parent-docum
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8080)

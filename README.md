@@ -21,7 +21,17 @@ poetry install --no-interaction --no-ansi
 poetry shell
 ```
 
+### Install Frontend
+
+To install the frontend run the following commands in the [frontend](frontend) directory
+
+```bash
+npm install
+```
+
 ## Usage
+
+Create the .env file inside the [backend](backend) directory and the .env.local file inside the [frontend](frontend) directory,
 
 ### Run Backend
 
@@ -29,6 +39,14 @@ To start the backend run the following commands in the [backend](backend) direct
 
 ```bash
 langchain serve
+```
+
+### Run Frontend
+
+To start the frontend run the following commands in the [frontend](frontend) directory
+
+```bash
+npm run dev
 ```
 
 ## Contributing

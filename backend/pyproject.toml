@@ -22,7 +22,7 @@ mongo-parent-document-retrieval = [
 ]
 
 [tool.poetry.group.dev.dependencies]
-langchain-cli = ">=0.0.15"
+langchain-cli = ">=0.0.30"
 
 [build-system]
 requires = ["poetry-core"]

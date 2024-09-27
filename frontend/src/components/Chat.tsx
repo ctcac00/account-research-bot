@@ -18,11 +18,18 @@ const Chat = ({ account }: { account: string }) => {
     {
       mutationFn: (query) => {
         return axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/ask-bot?query=${query}&account=${account}`
+          `${process.env.NEXT_PUBLIC_API_URL}/ask-bot?query=${query}&account=${account}`,
+          {
+            signal: AbortSignal.timeout(120000) //Aborts request after 120 seconds
+          }
         );
       },
       onSuccess: (data) => {
         setResponse(data.data.result);
+      },
+      onError: (error) => {
+        setResponse(error.message);
+        setEnabled(true);
       },
     },
     queryClient

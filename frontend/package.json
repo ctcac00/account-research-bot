@@ -24,7 +24,7 @@
     "@leafygreen-ui/text-input": "^13.0.2",
     "@leafygreen-ui/typography": "^18.2.3",
     "@tanstack/react-query": "^5.32.1",
-    "axios": "^1.6.8",
+    "axios": "^1.7.4",
     "next": "^14.2.3",
     "react": "^18",
     "react-dom": "^18"

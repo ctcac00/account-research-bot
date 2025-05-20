@@ -9,20 +9,26 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.12"
 uvicorn = "^0.23.2"
-langserve = {extras = ["server"], version = ">=0.0.30"}
-pydantic = "<2"
+aiohttp = "^3.10.11"
+h11 = "^0.16.0"
+langserve = {extras = ["server"], version = "^0.1.0"}
+langchain = "^0.1.0"
+langchain-community = "^0.0.38"
+langchain-core = "^0.1.52"
+pydantic = "^2.5.3"
 python-dotenv = "^1.0.1"
-python-multipart = "^0.0.9"
+python-multipart = "^0.0.18"
+setuptools = "^78.1.1"
+starlette = "^0.40.0"
 mongo-parent-document-retrieval = [
-    {path = "packages\\mongo-parent-document-retrieval", develop = true, platform = 'win32'},
     {path = "packages/mongo-parent-document-retrieval", develop = true, platform = 'linux'},
     {path = "packages/mongo-parent-document-retrieval", develop = true, platform = 'darwin' }
 ]
 
 [tool.poetry.group.dev.dependencies]
-langchain-cli = ">=0.0.30"
+langchain-cli = "^0.0.30"
 
 [build-system]
 requires = ["poetry-core"]

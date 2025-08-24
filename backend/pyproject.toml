@@ -11,7 +11,7 @@ packages = [
 [tool.poetry.dependencies]
 python = "^3.12"
 uvicorn = "^0.23.2"
-aiohttp = "^3.10.11"
+aiohttp = "^3.12.14"
 h11 = "^0.16.0"
 langserve = {extras = ["server"], version = "^0.1.0"}
 langchain = "^0.1.0"
